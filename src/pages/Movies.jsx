@@ -1,16 +1,14 @@
-
 import { useEffect, useState } from 'react';
-//import { useState } from 'react';
 import MovieGrid from '../components/MovieGrid';
-//import { movies as localMovies } from '../data/data';
-import { getMovies, CACHE_KEY } from '../api/tmdb';
-import { forget } from '../api/cache';
+// import { getMovies, CACHE_KEY } from '../api/tmdb';
+import { getMovies } from '../api/backend';
+// import { forget } from '../api/cache';
+
 // TODO ขั้นที่ 3: import { useEffect } from 'react' และ import { getMovies, CACHE_KEY } from '../api/tmdb' กับ { forget } from '../api/cache'
 
 function Movies() {
   const [query, setQuery] = useState('');          // คำค้น (controlled input) กรองในเครื่อง ไม่ยิง API
   const [genre, setGenre] = useState('all');       // แนวที่เลือกจากแถบปุ่ม 'all' = ทุกแนว
-  
   const [movies, setMovies] = useState([]);        // รายการจาก getMovies() (โหลดจริงวันละครั้ง)
   const [status, setStatus] = useState('loading'); // 'loading' | 'success' | 'error'
   const [error, setError] = useState(null);
@@ -21,10 +19,10 @@ function Movies() {
   //   status   'loading' | 'success' | 'error'
   //   error    Error หรือ null
   //   และ reloadKey (ตัวนับ) สำหรับปุ่ม "ลองใหม่" ที่ต้อง forget(CACHE_KEY) ก่อนโหลดซ้ำ
-  //const movies = localMovies;
-  //const status = 'success';
-  //const error = null;
-  
+  // const movies = localMovies;
+  // const status = 'success';
+  // const error = null;
+
   useEffect(() => {
     let ignore = false;                            // ธงกันคำตอบเก่ามาทับคำตอบใหม่
 
@@ -66,12 +64,12 @@ function Movies() {
         <div>
           <h1 className="text-2xl font-semibold text-slate-900">หนังทั้งหมด</h1>
           <p className="text-sm text-slate-500">
-            แหล่งข้อมูล: TMDB (โหลดวันละครั้ง) {status === 'success' && `| พบ ${shown.length} จาก ${movies.length} เรื่อง`}
+            แหล่งข้อมูล: TMDB (โหลดวันละครั้ง) {status === 'success' && `| พบ ${shown.length} จาก ${movies.length} เรื่อง`} {status === 'success' && `| พบ ${shown.length} จาก ${movies.length} เรื่อง`}
           </p>
         </div>
         <input value={query} onChange={(e) => setQuery(e.target.value)}
-               placeholder="พิมพ์ชื่อหนังเพื่อกรอง..."
-               className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100 md:w-72" />
+          placeholder="พิมพ์ชื่อหนังเพื่อกรอง..."
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-100 md:w-72" />
       </div>
 
       {/* เมนูเลือกแนวหนัง สร้างจากข้อมูลที่มีจริง ไม่ต้องพิมพ์รายชื่อเอง */}
@@ -83,7 +81,7 @@ function Movies() {
       </div>
 
       <MovieGrid movies={shown} status={status} error={error}
-                  onRetry={() => { forget(CACHE_KEY); setReloadKey(k => k + 1); }} />
+        onRetry={() =>  setReloadKey(k => k + 1) } />
     </div>
   );
 }
