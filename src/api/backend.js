@@ -6,6 +6,7 @@
 const BASE = process.env.REACT_APP_API_URL || '';
 
 // ฟังก์ชันเดียวที่ fetch จริง ทุกฟังก์ชันด้านล่างเรียกผ่านตัวนี้
+
 export async function apiFetch(path, { method = 'GET', body, token } = {}) {
   const headers = { 'Content-Type': 'application/json' };   // 1) บอก server ว่า body เป็น JSON
   if (token) headers.Authorization = `Bearer ${token}`;      //    และแนบบัตรผ่านถ้ามี
@@ -69,6 +70,6 @@ export async function getMovies() {
   return data.items;
 }
 
-export async function getMovie(movirId){
-  return apiFetch('/api/movies/${movieId)'); // ได้ ( movie, reviews, vite, inWishlist )
-}
+export async function getMovie(movieId) {
+  return apiFetch(`/api/movies/${movieId}`);
+}   
